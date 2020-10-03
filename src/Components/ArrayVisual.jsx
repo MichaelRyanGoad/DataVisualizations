@@ -7,11 +7,21 @@ function ArrayVisual() {
   shuffle(stdArray);
 
   const [myArray, setMyArray] = useState(stdArray);
+  const [pos, setPos] = useState(0);
 
   return (
-    <div className="node-row" onClick={() => bubbleSort(myArray, setMyArray)}>
+    <div
+      className="node-row"
+      onClick={() => bubbleSort(myArray, setMyArray, setPos)}
+    >
       {myArray.map((value, index) => {
-        return <Node key={index} num={value} />;
+        return (
+          <Node
+            key={index}
+            num={value}
+            visiting={pos === index ? true : false}
+          />
+        );
       })}
     </div>
   );
@@ -25,22 +35,21 @@ function generateStandardArray(arrLen) {
   return retArr;
 }
 
-async function bubbleSort(array, sMA) {
+async function bubbleSort(array, setMyArray, setPos) {
   console.log("BUBBLE SORT GOT CALLED");
   let keepGoing = true;
   while (keepGoing) {
     keepGoing = false;
     for (let i = 0; i < array.length - 1; i++) {
+      setPos(i);
       if (array[i] > array[i + 1]) {
         let temp = array[i];
         array[i] = array[i + 1];
         array[i + 1] = temp;
         keepGoing = true;
-        let newArr = [...array];
-        await sleep(300);
-        sMA(newArr);
+        setMyArray([...array]);
       }
-
+      await sleep(300);
       console.log("sortStep");
     }
   }

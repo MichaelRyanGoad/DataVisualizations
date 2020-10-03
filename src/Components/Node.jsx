@@ -6,6 +6,7 @@ function Node(data) {
     <div
       style={{
         height: (data.num / 10) * 100 + "vh",
+        backgroundColor: data.visiting ? "hotpink" : "green",
       }}
       className="node"
     >
