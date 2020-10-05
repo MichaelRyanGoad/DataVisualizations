@@ -5,12 +5,13 @@ function Node(data) {
   const retNode = (
     <div
       style={{
-        height: (data.num / 10) * 100 + "vh",
+        height: (data.num / data.arrSize) * 100 + "vh",
+        width: "100vw",
         backgroundColor: data.visiting ? "hotpink" : "green",
       }}
       className="node"
     >
-      {data.num}
+      <div>{data.num}</div>
     </div>
   );
   return retNode;

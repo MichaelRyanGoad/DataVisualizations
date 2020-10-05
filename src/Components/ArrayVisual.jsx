@@ -8,21 +8,50 @@ function ArrayVisual() {
 
   const [myArray, setMyArray] = useState(stdArray);
   const [pos, setPos] = useState(0);
+  const [arrSize, setArrSize] = useState(10);
+  const [newSize, setNewSize] = useState(arrSize);
 
   return (
-    <div
-      className="node-row"
-      onClick={() => bubbleSort(myArray, setMyArray, setPos)}
-    >
-      {myArray.map((value, index) => {
-        return (
-          <Node
-            key={index}
-            num={value}
-            visiting={pos === index ? true : false}
-          />
-        );
-      })}
+    <div>
+      <div className="header">
+        <button onClick={() => bubbleSort(myArray, setMyArray, setPos)}>
+          Bubble Sort
+        </button>
+        <label htmlFor="sizeRange">Array Size: {newSize}</label>
+        <input
+          type="range"
+          min="3"
+          max="100"
+          id="sizeRange"
+          placeholder={newSize}
+          onChange={(event) => {
+            setNewSize(event.target.value);
+          }}
+        ></input>
+        <button
+          onClick={() => {
+            setArrSize(newSize);
+            setMyArray(shuffle(generateStandardArray(newSize)));
+          }}
+        >
+          Generate New Array
+        </button>
+        <button onClick={() => setMyArray([...shuffle(myArray)])}>
+          Shuffle Array
+        </button>
+      </div>
+      <div className="node-row">
+        {myArray.map((value, index) => {
+          return (
+            <Node
+              key={index}
+              num={value}
+              visiting={pos === index ? true : false}
+              arrSize={arrSize}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -62,6 +91,7 @@ function sleep(ms) {
 }
 
 function shuffle(array) {
+  console.log("shuffle called");
   let currentIndex = array.length,
     temporaryValue,
     randomIndex;
@@ -78,6 +108,7 @@ function shuffle(array) {
     array[randomIndex] = temporaryValue;
   }
 
+  console.log("Array: ", array);
   return array;
 }
 
