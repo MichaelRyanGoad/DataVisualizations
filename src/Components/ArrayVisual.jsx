@@ -10,14 +10,18 @@ function ArrayVisual() {
   const [pos, setPos] = useState(0);
   const [arrSize, setArrSize] = useState(10);
   const [newSize, setNewSize] = useState(arrSize);
+  const [stepDelay, setStepDelay] = useState(300);
 
   return (
     <div>
       <div className="header">
-        <button onClick={() => bubbleSort(myArray, setMyArray, setPos)}>
+        <button
+          onClick={() => bubbleSort(myArray, stepDelay, setMyArray, setPos)}
+        >
           Bubble Sort
         </button>
-        <label htmlFor="sizeRange">Array Size: {newSize}</label>
+        <br />
+
         <input
           type="range"
           min="3"
@@ -28,6 +32,22 @@ function ArrayVisual() {
             setNewSize(event.target.value);
           }}
         ></input>
+        <label htmlFor="sizeRange">Array Size: {newSize}</label>
+        <br />
+
+        <label htmlFor="delayInput">Step delay(ms): </label>
+        <input
+          type="number"
+          min="0"
+          id="delayInput"
+          placeholder={stepDelay}
+          onChange={(event) => {
+            setStepDelay(event.target.value);
+          }}
+        ></input>
+
+        <br />
+
         <button
           onClick={() => {
             setArrSize(newSize);
@@ -36,6 +56,7 @@ function ArrayVisual() {
         >
           Generate New Array
         </button>
+
         <button onClick={() => setMyArray([...shuffle(myArray)])}>
           Shuffle Array
         </button>
@@ -64,7 +85,7 @@ function generateStandardArray(arrLen) {
   return retArr;
 }
 
-async function bubbleSort(array, setMyArray, setPos) {
+async function bubbleSort(array, stepDelay, setMyArray, setPos) {
   console.log("BUBBLE SORT GOT CALLED");
   let keepGoing = true;
   while (keepGoing) {
@@ -78,7 +99,7 @@ async function bubbleSort(array, setMyArray, setPos) {
         keepGoing = true;
         setMyArray([...array]);
       }
-      await sleep(300);
+      await sleep(stepDelay);
       console.log("sortStep");
     }
   }
