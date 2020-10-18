@@ -11,24 +11,30 @@ function ArrayVisual() {
   const [arrSize, setArrSize] = useState(10);
   const [newSize, setNewSize] = useState(arrSize);
   const [stepDelay, setStepDelay] = useState(300);
+  const [isRunning, setIsRunning] = useState(false);
 
   return (
     <div>
       <div className="header">
         <button
-          onClick={() => bubbleSort(myArray, stepDelay, setMyArray, setPos)}
+          disabled={isRunning}
+          onClick={() => {
+            bubbleSort(myArray, stepDelay, setMyArray, setPos, setIsRunning);
+          }}
         >
           Bubble Sort
         </button>
         <br />
 
         <input
+          disabled={isRunning}
           type="range"
           min="3"
           max="100"
           id="sizeRange"
           placeholder={newSize}
           onChange={(event) => {
+            console.log(event.target);
             setNewSize(event.target.value);
           }}
         ></input>
@@ -37,6 +43,7 @@ function ArrayVisual() {
 
         <label htmlFor="delayInput">Step delay(ms): </label>
         <input
+          disabled={isRunning}
           type="number"
           min="0"
           id="delayInput"
@@ -49,6 +56,7 @@ function ArrayVisual() {
         <br />
 
         <button
+          disabled={isRunning}
           onClick={() => {
             setArrSize(newSize);
             setMyArray(shuffle(generateStandardArray(newSize)));
@@ -57,7 +65,10 @@ function ArrayVisual() {
           Generate New Array
         </button>
 
-        <button onClick={() => setMyArray([...shuffle(myArray)])}>
+        <button
+          disabled={isRunning}
+          onClick={() => setMyArray([...shuffle(myArray)])}
+        >
           Shuffle Array
         </button>
       </div>
@@ -78,6 +89,7 @@ function ArrayVisual() {
 }
 
 function generateStandardArray(arrLen) {
+  console.log("generate standard array called");
   let retArr = [];
   for (let i = 0; i < arrLen; i++) {
     retArr.push(i);
@@ -85,8 +97,8 @@ function generateStandardArray(arrLen) {
   return retArr;
 }
 
-async function bubbleSort(array, stepDelay, setMyArray, setPos) {
-  console.log("BUBBLE SORT GOT CALLED");
+async function bubbleSort(array, stepDelay, setMyArray, setPos, setIsRunning) {
+  setIsRunning(true);
   let keepGoing = true;
   while (keepGoing) {
     keepGoing = false;
@@ -103,8 +115,7 @@ async function bubbleSort(array, stepDelay, setMyArray, setPos) {
       console.log("sortStep");
     }
   }
-  console.log("sort finished");
-  console.log(array);
+  setIsRunning(false);
 }
 
 function sleep(ms) {
