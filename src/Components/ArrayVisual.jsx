@@ -3,15 +3,17 @@ import Node from "./Node";
 import "./ArrayVisual.css";
 
 function ArrayVisual() {
-  let stdArray = generateStandardArray(10);
-  shuffle(stdArray);
-
-  const [myArray, setMyArray] = useState(stdArray);
+  const [myArray, setMyArray] = useState([]);
   const [pos, setPos] = useState(0);
   const [arrSize, setArrSize] = useState(10);
   const [newSize, setNewSize] = useState(arrSize);
   const [stepDelay, setStepDelay] = useState(300);
   const [isRunning, setIsRunning] = useState(false);
+
+  //initialize array if first time
+  if (!myArray.length) {
+    setMyArray(shuffle(generateStandardArray(10)));
+  }
 
   return (
     <div>
@@ -34,7 +36,6 @@ function ArrayVisual() {
           id="sizeRange"
           placeholder={newSize}
           onChange={(event) => {
-            console.log(event.target);
             setNewSize(event.target.value);
           }}
         ></input>
@@ -98,6 +99,7 @@ function generateStandardArray(arrLen) {
 }
 
 async function bubbleSort(array, stepDelay, setMyArray, setPos, setIsRunning) {
+  console.log("Bubblesort called");
   setIsRunning(true);
   let keepGoing = true;
   while (keepGoing) {
@@ -140,7 +142,6 @@ function shuffle(array) {
     array[randomIndex] = temporaryValue;
   }
 
-  console.log("Array: ", array);
   return array;
 }
 
