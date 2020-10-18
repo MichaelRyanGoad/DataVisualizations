@@ -4,7 +4,7 @@ async function bubbleSort(array, stepDelay, setMyArray, setPos, setIsRunning) {
   let keepGoing = true;
   while (keepGoing) {
     keepGoing = false;
-    for (let i = 0; i < array.length - 1; i++) {
+    for (let i = 0; i < array.length; i++) {
       setPos(i);
       if (array[i] > array[i + 1]) {
         let temp = array[i];

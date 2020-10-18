@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Node from "./Node";
 import "./ArrayVisual.css";
 import bubbleSort from "./SortingAlgorithms/BubbleSort";
+import selectionSort from "./SortingAlgorithms/SelectionSort";
 
 function ArrayVisual() {
   const [myArray, setMyArray] = useState([]);
@@ -10,10 +11,17 @@ function ArrayVisual() {
   const [newSize, setNewSize] = useState(arrSize);
   const [stepDelay, setStepDelay] = useState(300);
   const [isRunning, setIsRunning] = useState(false);
+  const [minPos, setMinPos] = useState(-1);
 
   //initialize array if first time
   if (!myArray.length) {
     setMyArray(shuffle(generateStandardArray(10)));
+  }
+
+  //refresh any variables effecting node style
+  function refresh() {
+    setMinPos(-1);
+    setPos(-1);
   }
 
   return (
@@ -22,10 +30,26 @@ function ArrayVisual() {
         <button
           disabled={isRunning}
           onClick={() => {
+            refresh();
             bubbleSort(myArray, stepDelay, setMyArray, setPos, setIsRunning);
           }}
         >
           Bubble Sort
+        </button>
+        <button
+          disabled={isRunning}
+          onClick={() => {
+            selectionSort(
+              myArray,
+              stepDelay,
+              setMyArray,
+              setPos,
+              setIsRunning,
+              setMinPos
+            );
+          }}
+        >
+          Selection Sort
         </button>
         <br />
 
@@ -81,6 +105,7 @@ function ArrayVisual() {
               key={index}
               num={value}
               visiting={pos === index ? true : false}
+              minNode={minPos === index ? true : false}
               arrSize={arrSize}
             />
           );

@@ -8,6 +8,8 @@ function Node(data) {
         height: (data.num / data.arrSize) * 100 + "vh",
         width: "100vw",
         backgroundColor: data.visiting ? "hotpink" : "green",
+        borderStyle: data.minNode ? "solid" : "none",
+        borderColor: data.minNode ? "red" : "none",
       }}
       className="node"
     >
