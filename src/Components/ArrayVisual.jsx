@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Node from "./Node";
 import "./ArrayVisual.css";
+import bubbleSort from "./SortingAlgorithms/BubbleSort";
 
 function ArrayVisual() {
   const [myArray, setMyArray] = useState([]);
@@ -96,32 +97,6 @@ function generateStandardArray(arrLen) {
     retArr.push(i);
   }
   return retArr;
-}
-
-async function bubbleSort(array, stepDelay, setMyArray, setPos, setIsRunning) {
-  console.log("Bubblesort called");
-  setIsRunning(true);
-  let keepGoing = true;
-  while (keepGoing) {
-    keepGoing = false;
-    for (let i = 0; i < array.length - 1; i++) {
-      setPos(i);
-      if (array[i] > array[i + 1]) {
-        let temp = array[i];
-        array[i] = array[i + 1];
-        array[i + 1] = temp;
-        keepGoing = true;
-        setMyArray([...array]);
-      }
-      await sleep(stepDelay);
-      console.log("sortStep");
-    }
-  }
-  setIsRunning(false);
-}
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function shuffle(array) {
