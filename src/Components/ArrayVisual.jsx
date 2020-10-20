@@ -3,19 +3,26 @@ import Node from "./Node";
 import "./ArrayVisual.css";
 import bubbleSort from "./SortingAlgorithms/BubbleSort";
 import selectionSort from "./SortingAlgorithms/SelectionSort";
+import { useForm } from "./useForm";
 
 function ArrayVisual() {
+  //Array and array metadata
   const [myArray, setMyArray] = useState(() =>
     shuffle(generateStandardArray(10))
   );
-  const [pos, setPos] = useState(0);
   const [arrSize, setArrSize] = useState(10);
-  const [newSize, setNewSize] = useState(arrSize);
-  const [stepDelay, setStepDelay] = useState(300);
-  const [isRunning, setIsRunning] = useState(false);
+
+  //CSS Information about sorting positions
+  const [pos, setPos] = useState(0);
   const [minPos, setMinPos] = useState(-1);
 
-  //refresh any variables effecting node style
+  //Metadata for disabling UI
+  const [isRunning, setIsRunning] = useState(false);
+
+  //Form data
+  const [values, handleChange] = useForm({ newSize: arrSize, stepDelay: 300 });
+
+  //function to refresh any variables effecting node style
   function refresh() {
     setMinPos(-1);
     setPos(-1);
@@ -28,7 +35,13 @@ function ArrayVisual() {
           disabled={isRunning}
           onClick={() => {
             refresh();
-            bubbleSort(myArray, stepDelay, setMyArray, setPos, setIsRunning);
+            bubbleSort(
+              myArray,
+              values.stepDelay,
+              setMyArray,
+              setPos,
+              setIsRunning
+            );
           }}
         >
           Bubble Sort
@@ -39,7 +52,7 @@ function ArrayVisual() {
             refresh();
             selectionSort(
               myArray,
-              stepDelay,
+              values.stepDelay,
               setMyArray,
               setPos,
               setIsRunning,
@@ -53,28 +66,26 @@ function ArrayVisual() {
 
         <input
           disabled={isRunning}
+          name="newSize"
           type="range"
           min="3"
           max="100"
           id="sizeRange"
-          placeholder={newSize}
-          onChange={(event) => {
-            setNewSize(event.target.value);
-          }}
+          placeholder={values.newSize}
+          onChange={handleChange}
         ></input>
-        <label htmlFor="sizeRange">Array Size: {newSize}</label>
+        <label htmlFor="sizeRange">Array Size: {values.newSize}</label>
         <br />
 
         <label htmlFor="delayInput">Step delay(ms): </label>
         <input
           disabled={isRunning}
+          name="stepDelay"
           type="number"
           min="0"
           id="delayInput"
-          placeholder={stepDelay}
-          onChange={(event) => {
-            setStepDelay(event.target.value);
-          }}
+          value={values.stepDelay}
+          onChange={handleChange}
         ></input>
 
         <br />
@@ -82,8 +93,8 @@ function ArrayVisual() {
         <button
           disabled={isRunning}
           onClick={() => {
-            setArrSize(newSize);
-            setMyArray(shuffle(generateStandardArray(newSize)));
+            setArrSize(values.newSize);
+            setMyArray(shuffle(generateStandardArray(values.newSize)));
           }}
         >
           Generate New Array
