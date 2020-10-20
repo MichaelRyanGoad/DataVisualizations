@@ -91,7 +91,7 @@ function ArrayVisual() {
 
         <button
           disabled={isRunning}
-          onClick={() => setMyArray([...shuffle(myArray)])}
+          onClick={() => setMyArray((myArray) => [...shuffle(myArray)])}
         >
           Shuffle Array
         </button>
