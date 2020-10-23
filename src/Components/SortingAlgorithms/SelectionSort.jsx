@@ -2,21 +2,20 @@ async function selectionSort(
   array,
   stepDelay,
   setMyArray,
-  setPos,
   setIsRunning,
-  setMinPos
+  setStyleInfo
 ) {
   console.log("Selection sort called");
   setIsRunning(true);
   for (let sortedPos = 0; sortedPos < array.length; sortedPos++) {
     let [minVal, minPos] = [array[sortedPos], sortedPos];
-    setMinPos(sortedPos);
+    setStyleInfo((style) => ({ ...style, minPos: sortedPos }));
     for (let i = sortedPos + 1; i < array.length; i++) {
-      setPos(i);
+      setStyleInfo((style) => ({ ...style, pos: i }));
       if (array[i] < minVal) {
         minVal = array[i];
         minPos = i;
-        setMinPos(i);
+        setStyleInfo((style) => ({ ...style, minPos: i }));
       }
       await sleep(stepDelay);
     }
@@ -25,6 +24,7 @@ async function selectionSort(
     array[minPos] = temp;
     setMyArray([...array]);
   }
+  setStyleInfo({});
   setIsRunning(false);
 }
 

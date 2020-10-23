@@ -14,10 +14,8 @@ function ArrayVisual() {
   const [arrSize, setArrSize] = useState(10);
 
   //CSS Information about sorting positions
-  const [pos, setPos] = useState(0);
-  const [minPos, setMinPos] = useState(-1);
-  const [mergeInfo, setMergeInfo] = useState(() => {
-    return {};
+  const [styleInfo, setStyleInfo] = useState(() => {
+    return { pos: -2, minPos: -1 };
   });
 
   //latest ran algorithm
@@ -31,8 +29,7 @@ function ArrayVisual() {
 
   //function to refresh any variables effecting node style
   function refresh() {
-    setMinPos(-1);
-    setPos(-1);
+    setStyleInfo({ pos: -2, minPos: -1 });
   }
 
   return (
@@ -48,8 +45,8 @@ function ArrayVisual() {
               myArray,
               values.stepDelay,
               setMyArray,
-              setPos,
-              setIsRunning
+              setIsRunning,
+              setStyleInfo
             );
           }}
         >
@@ -66,9 +63,8 @@ function ArrayVisual() {
               myArray,
               values.stepDelay,
               setMyArray,
-              setPos,
               setIsRunning,
-              setMinPos
+              setStyleInfo
             );
           }}
         >
@@ -85,10 +81,8 @@ function ArrayVisual() {
               myArray,
               values.stepDelay,
               setMyArray,
-              setPos,
               setIsRunning,
-              setMinPos,
-              setMergeInfo
+              setStyleInfo
             );
           }}
         >
@@ -146,9 +140,9 @@ function ArrayVisual() {
           return (
             <Node
               key={index}
+              index={index}
               num={value}
-              visiting={pos === index ? true : false}
-              minNode={minPos === index ? true : false}
+              styleInfo={styleInfo}
               arrSize={arrSize}
               latestAlgo={algo}
             />

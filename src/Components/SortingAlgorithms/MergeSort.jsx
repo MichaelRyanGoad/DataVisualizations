@@ -2,9 +2,8 @@ async function mergeSort(
   array,
   stepDelay,
   setMyArray,
-  setPos,
   setIsRunning,
-  setMinPos
+  setStyleInfo
 ) {
   console.log("MergeSort called");
   setIsRunning(true);
@@ -25,7 +24,7 @@ async function mergeSort(
     await mergeSortHelper(auxiliaryArray, startIdx, middleIdx, mainArray);
     await mergeSortHelper(auxiliaryArray, middleIdx + 1, endIdx, mainArray);
     await doMerge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray);
-    console.log(mainArray);
+    setStyleInfo({});
   }
 
   async function doMerge(
@@ -35,12 +34,17 @@ async function mergeSort(
     endIdx,
     auxiliaryArray
   ) {
+    setStyleInfo((style) => ({ ...style, startIdx, middleIdx, endIdx }));
     let k = startIdx;
     let i = startIdx;
     let j = middleIdx + 1;
     while (i <= middleIdx && j <= endIdx) {
-      setPos(i);
-      setMinPos(j);
+      //Workaround to get around ESLint warning.
+      let ii = i;
+      let jj = j;
+      let kk = k;
+
+      await setStyleInfo((style) => ({ ...style, p1: ii, p2: jj, k: kk }));
       if (auxiliaryArray[i] <= auxiliaryArray[j]) {
         mainArray[k] = auxiliaryArray[i];
         i += 1;

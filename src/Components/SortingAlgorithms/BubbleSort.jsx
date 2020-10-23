@@ -1,11 +1,17 @@
-async function bubbleSort(array, stepDelay, setMyArray, setPos, setIsRunning) {
+async function bubbleSort(
+  array,
+  stepDelay,
+  setMyArray,
+  setIsRunning,
+  setStyleInfo
+) {
   console.log("Bubblesort called");
   setIsRunning(true);
   let keepGoing = true;
   while (keepGoing) {
     keepGoing = false;
-    for (let i = 0; i < array.length; i++) {
-      setPos(i);
+    for (let i = 0; i < array.length - 1; i++) {
+      setStyleInfo((style) => ({ ...style, pos: i }));
       if (array[i] > array[i + 1]) {
         let temp = array[i];
         array[i] = array[i + 1];
@@ -16,6 +22,7 @@ async function bubbleSort(array, stepDelay, setMyArray, setPos, setIsRunning) {
       await sleep(stepDelay);
     }
   }
+  setStyleInfo({});
   setIsRunning(false);
 }
 
