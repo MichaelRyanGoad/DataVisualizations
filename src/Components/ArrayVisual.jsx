@@ -3,6 +3,7 @@ import Node from "./Node";
 import "./ArrayVisual.css";
 import bubbleSort from "./SortingAlgorithms/BubbleSort";
 import selectionSort from "./SortingAlgorithms/SelectionSort";
+import mergeSort from "./SortingAlgorithms/MergeSort";
 import { useForm } from "./useForm";
 
 function ArrayVisual() {
@@ -15,6 +16,12 @@ function ArrayVisual() {
   //CSS Information about sorting positions
   const [pos, setPos] = useState(0);
   const [minPos, setMinPos] = useState(-1);
+  const [mergeInfo, setMergeInfo] = useState(() => {
+    return {};
+  });
+
+  //latest ran algorithm
+  const [algo, setAlgo] = useState(() => "bubbleSort");
 
   //Metadata for disabling UI
   const [isRunning, setIsRunning] = useState(false);
@@ -31,10 +38,12 @@ function ArrayVisual() {
   return (
     <div>
       <div className="header">
+        {/* Bubble Sort Button */}
         <button
           disabled={isRunning}
           onClick={() => {
             refresh();
+            setAlgo("bubbleSort");
             bubbleSort(
               myArray,
               values.stepDelay,
@@ -46,10 +55,13 @@ function ArrayVisual() {
         >
           Bubble Sort
         </button>
+
+        {/* Selection Sort Button */}
         <button
           disabled={isRunning}
           onClick={() => {
             refresh();
+            setAlgo("selectionSort");
             selectionSort(
               myArray,
               values.stepDelay,
@@ -62,8 +74,29 @@ function ArrayVisual() {
         >
           Selection Sort
         </button>
+
+        {/* Merge Sort Button */}
+        <button
+          disabled={isRunning}
+          onClick={() => {
+            refresh();
+            setAlgo("mergeSort");
+            mergeSort(
+              myArray,
+              values.stepDelay,
+              setMyArray,
+              setPos,
+              setIsRunning,
+              setMinPos,
+              setMergeInfo
+            );
+          }}
+        >
+          Merge Sort
+        </button>
         <br />
 
+        {/* Array Size Slider + Label */}
         <input
           disabled={isRunning}
           name="newSize"
@@ -77,6 +110,7 @@ function ArrayVisual() {
         <label htmlFor="sizeRange">Array Size: {values.newSize}</label>
         <br />
 
+        {/* Step Delay Slider + label */}
         <label htmlFor="delayInput">Step delay(ms): </label>
         <input
           disabled={isRunning}
@@ -89,7 +123,7 @@ function ArrayVisual() {
         ></input>
 
         <br />
-
+        {/* Generate New Array Button */}
         <button
           disabled={isRunning}
           onClick={() => {
@@ -116,6 +150,7 @@ function ArrayVisual() {
               visiting={pos === index ? true : false}
               minNode={minPos === index ? true : false}
               arrSize={arrSize}
+              latestAlgo={algo}
             />
           );
         })}
