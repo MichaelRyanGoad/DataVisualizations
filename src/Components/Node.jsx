@@ -1,5 +1,4 @@
 import React from "react";
-import "./Node.css";
 
 function Node(data) {
   //default values
